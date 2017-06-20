@@ -2,9 +2,11 @@
 apt-get install samba
 mv /etc/samba/smb.conf /etc/samba/smb.conf_old
 #edit /etc/samba/amb.conf
+net ads join -U soh516 createcomputer=ResearchComputingOU/PSYOU
 apt-get install krb5-user
 #verification --> klist -ke
 apt-get install nfs-common
+mv /etc/default/nfs-common /etc/default/nfs-common_old
 #edit /etc/default/nfs-common
 mkdir /datastore
 mv /etc/krb5.conf /etc/krb5.conf_old
