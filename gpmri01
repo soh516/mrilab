@@ -1,3 +1,4 @@
+#Ubuntu 14.04
 apt-get install samba
 mv /etc/samba/smb.conf /etc/samba/smb.conf_old
 #edit /etc/samba/amb.conf
