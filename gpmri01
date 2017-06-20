@@ -1,0 +1,22 @@
+apt-get install samba
+mv /etc/samba/smb.conf /etc/samba/smb.conf_old
+#edit /etc/samba/amb.conf
+apt-get install krb5-user
+#verification --> klist -ke
+apt-get install nfs-common
+#edit /etc/default/nfs-common
+mkdir /datastore
+mv /etc/krb5.conf /etc/krb5.conf_old
+#edit /etc/krb5.conf
+#root@gpmri01:~# mount -t nfs4 -o sec=krb5,exec datastore:/ResearchData/Data /datastore/
+#mount.nfs4: access denied by server while mounting datastore:/ResearchData/Data
+service gssd start
+#mount good now
+#I tried to make chkconfig equivalent with --> update-rc.d gssd default
+#But it does not work. Auto start looks like with my machine
+apt-get install libpam-krb5
+#test with my account
+adduser soh516 --> enter for password!!
+#test login and access datastore
+#edit /etc/fstab for permanent mount
+datastore:/ResearchData/data    /datastore    nfs4    sec=krb5,exec,_netdev   0  0
