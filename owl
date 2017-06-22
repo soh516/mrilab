@@ -1,4 +1,4 @@
-#Ubuntu 14.04
+#Ubuntu 15.04
 apt-get install samba
 mv /etc/samba/smb.conf /etc/samba/smb.conf_old
 #edit /etc/samba/amb.conf
@@ -11,9 +11,14 @@ mv /etc/default/nfs-common /etc/default/nfs-common_old
 mkdir /datastore
 mv /etc/krb5.conf /etc/krb5.conf_old
 #edit /etc/krb5.conf
-#root@gpmri01:~# mount -t nfs4 -o sec=krb5,exec datastore:/ResearchData/Data /datastore/
-#mount.nfs4: access denied by server while mounting datastore:/ResearchData/Data
-service gssd start
+#root@owl:~# mount -t nfs4 -o sec=krb5,exec datastore:/ResearchData/Data /datastore/
+#mount.nfs4: an incorrect mount option was specified
+#I believe it is complaining about krb5 option. It is absolutely necessary to get rpc.gssd running for this. 
+#rpc.gssd and take a look at /var/log/syslog
+#could not open rpc_pipefs directory '/run/rpc_pipefs': No such file or directory
+#BUG!!
+#apt-get upgrade
+#reboot
 #mount good now
 #I tried to make chkconfig equivalent with --> update-rc.d gssd default
 #But it does not work. Auto start looks like with my machine
