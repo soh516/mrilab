@@ -15,13 +15,12 @@ mv /etc/krb5.conf /etc/krb5.conf_old
 #mount.nfs4: an incorrect mount option was specified
 #I believe it is complaining about krb5 option. It is absolutely necessary to get rpc.gssd running for this. 
 #rpc.gssd and take a look at /var/log/syslog
+#which rpc.gssd --> /usr/sbin/rpc.gssd --> auto start look like
 #could not open rpc_pipefs directory '/run/rpc_pipefs': No such file or directory
 #BUG!!
 #apt-get upgrade
 #reboot
 #mount good now
-#I tried to make chkconfig equivalent with --> update-rc.d gssd default
-#But it does not work. Auto start looks like with my machine
 apt-get install libpam-krb5
 #test with my account
 adduser soh516 --> enter for password!!
