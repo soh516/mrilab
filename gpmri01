@@ -22,4 +22,4 @@ apt-get install libpam-krb5
 adduser soh516 --> enter for password!!
 #test login and access datastore
 #edit /etc/fstab for permanent mount
-datastore:/ResearchData/data    /datastore    nfs4    sec=krb5,exec,_netdev   0  0
+datastore:/ResearchData/Data    /datastore    nfs4    sec=krb5,exec,_netdev   0  0
