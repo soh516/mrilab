@@ -11,3 +11,8 @@ chown -R pmp861:pmp861 /home/pmp861
 #edit /etc/group --> replace hus with pmp861 --> do not comment out hus group
 #edit /etc/passwd --> comment out hus
 
+#do a final search
+#umount /datastore first
+find / -uid 1000
+mount /datastore
+#kerberos maintenance
