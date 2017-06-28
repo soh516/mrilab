@@ -1,0 +1,10 @@
+#add soh516 to sudo group
+#add pmp861 to sudo group
+#tar /home to datastore just in case
+root@gpmri01:~# tar -zcvf - /home 2> /root/gpmri01home.log | ssh soh516@oneplusone "cat > /mnt/datastore/soh516/gpmri01/gpmri01home.tar.gz"
+
+mv pmp861 pmp861_old
+mv hus pmp861
+chown -R pmp861:pmp861 /home/pmp861
+
+
