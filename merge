@@ -7,4 +7,7 @@ mv pmp861 pmp861_old
 mv hus pmp861
 chown -R pmp861:pmp861 /home/pmp861
 
+#edit /etc/group --> comment out hus group
+#edit /etc/group --> replace hus with pmp861 --> do not comment out hus group
+#edit /etc/passwd --> comment out hus
 
