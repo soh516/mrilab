@@ -1,5 +1,10 @@
 #add soh516 to sudo group
 #add pmp861 to sudo group
+
+####################################
+#option #1 --> use pmp861 afterwards
+####################################
+
 #tar /home to datastore just in case
 root@gpmri01:~# tar -zcvf - /home 2> /root/gpmri01home.log | ssh soh516@oneplusone "cat > /mnt/datastore/soh516/gpmri01/gpmri01home.tar.gz"
 
@@ -16,3 +21,26 @@ chown -R pmp861:pmp861 /home/pmp861
 find / -uid 1000
 mount /datastore
 #kerberos maintenance
+
+####################################
+##option #2 --> use mruser afterwards
+#####################################
+#kerberos maintenance 
+#edit .profile with
+#/usr/bin/kinit -k -t /home/mruser/.pmp861.keytab pmp861@USASK.CA >> /dev/null
+
+####################################
+##some notes about kerberos on ubuntu
+####################################
+#kerberos on ubuntu is different from red hat, mainly in pam --> /etc/pam.d
+## here are the per-package modules (the "Primary" block)
+#auth	[success=2 default=ignore]	pam_krb5.so minimum_uid=1000
+#auth	[success=1 default=ignore]	pam_unix.so nullok_secure try_first_pass
+## here's the fallback if no module succeeds
+#auth	requisite			pam_deny.so
+#when I add a new user with local passwd, I need
+#pam-auth-update
+#disable kerberos
+#adduser or change local passwd
+#pam-auth-update
+#enable kerberos
