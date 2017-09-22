@@ -1,0 +1,71 @@
+#!/bin/bash
+
+touch /etc/dconf/db/gdm.d/01-custom-gdm-settings
+
+echo "[org/gnome/login-screen]" > /etc/dconf/db/gdm.d/01-custom-gdm-settings
+echo "disable-user-list=true" >> /etc/dconf/db/gdm.d/01-custom-gdm-settings
+dconf update
+
+yum -y install nfs-utils
+yum -y install samba 
+yum -y install sssd-ad 
+yum -y install cyrus-sasl-gssapi 
+
+yum -y install sssd-krb5
+yum -y install sssd-ldap
+
+yum -y install sssd-client.i686 
+
+# enable kerberos
+authconfig --enablekrb5 --update --krb5realm=USASK.CA --krb5kdc=usaskdc5.usask.ca,usaskdc2.usask.ca,usaskdc6.usask.ca 
+
+#setup files required by sssd and nfs
+if [ ! -d "/mnt/eceappinstall" ]; then
+   mkdir -p /mnt/eceappinstall
+fi
+
+mount oneplus2:/var/www/html/repo /mnt/eceappinstall 
+
+\cp /mnt/eceappinstall/conffiles/krb5.conf /etc/ 
+\cp /mnt/eceappinstall/conffiles/smb.conf /etc/samba/ 
+hn=$(hostname) 
+#added in case hostname comes up with usask.ca or USASK.CA
+if [[ $hn == *"usask.ca"* ]]
+then
+  hn=${hn//.usask.ca/}
+elif [[ $hn == *"USASK.CA"* ]];
+then
+  hn=${hn//.USASK.CA/}
+fi
+nmcli general hostname $hn
+systemctl restart systemd-hostnamed
+net ads join -U soh516 createcomputer=ResearchComputingOU/PSYOU
+\cp /mnt/eceappinstall/conffiles/nfs /etc/sysconfig/
+\cp /mnt/eceappinstall/conffiles/nsswitch.conf /etc/
+\cp /mnt/eceappinstall/conffiles/sssd_psy.conf /etc/sssd/sssd.conf 
+\cp /mnt/eceappinstall/conffiles/idmapd.conf /etc/ 
+
+chmod 700 /etc/sssd/sssd.conf 
+
+systemctl enable nfs-client.target 
+systemctl start nfs-client.target
+systemctl enable sssd.service 
+systemctl start sssd.service 
+sleep 5
+systemctl restart sssd.service
+
+echo "nfsfiles.usask.ca:/home    /home    nfs    sec=krb5,exec,vers=3,_netdev   0  0" >> /etc/fstab
+
+mount -a
+
+\cp /mnt/eceappinstall/conffiles/profile /etc/
+
+yum -y install yum-cron
+systemctl start yum-cron
+systemctl enable yum-cron
+
+if grep -q 'apply_updates = no' /etc/yum/yum-cron.conf; then
+sed -i -e 's/apply_updates = no/apply_updates = yes/g' /etc/yum/yum-cron.conf
+fi
+
+reboot
