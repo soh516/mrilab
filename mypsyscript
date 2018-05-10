@@ -10,6 +10,7 @@ yum -y install nfs-utils
 yum -y install samba 
 yum -y install sssd-ad 
 yum -y install cyrus-sasl-gssapi 
+yum -y install pam_krb5
 
 yum -y install sssd-krb5
 yum -y install sssd-ldap
