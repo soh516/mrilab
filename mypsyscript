@@ -79,4 +79,14 @@ yum -y install osad
 systemctl start osad
 systemctl enable osad
 
+usermod -a -G wheel soh516
+usermod -a -G wheel ijm451
+
+echo 'wheel  ALL=(ALL)       NOPASSWD: ALL' | sudo EDITOR='tee -a' visudo
+
+crontab -l > mycron
+echo "@reboot /root/mrilab/cron_remount" >> mycron
+crontab mycron
+rm mycron
+
 reboot
