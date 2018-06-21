@@ -84,6 +84,8 @@ usermod -a -G wheel ijm451
 
 echo 'wheel  ALL=(ALL)       NOPASSWD: ALL' | sudo EDITOR='tee -a' visudo
 
+chmod 700 /root/mrilab/cron_remount
+
 crontab -l > mycron
 echo "@reboot /root/mrilab/cron_remount" >> mycron
 crontab mycron
