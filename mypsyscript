@@ -69,4 +69,14 @@ if grep -q 'apply_updates = no' /etc/yum/yum-cron.conf; then
 sed -i -e 's/apply_updates = no/apply_updates = yes/g' /etc/yum/yum-cron.conf
 fi
 
+# rhn stuff
+yum -y install rhncfg-actions
+yum -y install rhncfg
+yum -y install rhncfg-client
+mkdir -p /etc/sysconfig/rhn/allowed-actions/script
+touch /etc/sysconfig/rhn/allowed-actions/script/run
+yum -y install osad
+systemctl start osad
+systemctl enable osad
+
 reboot
