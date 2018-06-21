@@ -1,0 +1,12 @@
+#!/bin/bash
+x=0
+echo $x > /tmp/mountlog
+date >> /tmp/mountlog
+while ! grep -i home /proc/mounts
+do
+ x=$(( $x + 1 ))
+ sleep 1 
+ mount -a
+ echo $x > /tmp/mountlog
+ date >> /tmp/mountlog
+done
