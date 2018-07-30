@@ -1,8 +1,8 @@
 #Ubuntu 14.04
 apt-get install samba
 mv /etc/samba/smb.conf /etc/samba/smb.conf_old
-#edit /etc/samba/amb.conf
-net ads join -U soh516 createcomputer=ResearchComputingOU/PSYOU
+#edit /etc/samba/smb.conf
+net ads join -k -U soh516 createcomputer=ResearchComputingOU/PSYOU
 apt-get install krb5-user
 #verification --> klist -ke
 apt-get install nfs-common
